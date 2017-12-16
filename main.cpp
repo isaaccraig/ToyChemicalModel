@@ -8,8 +8,6 @@
 #include "SSCChemistryOperator.h"
 #include "Parameters.h"
 
-using namespace MODPARAMS; // From "Parameters.h"
-
 int main(){
 
   /*
@@ -18,10 +16,10 @@ int main(){
 
   */
 
-  CONCVEC BC;         // Boundary Conditions
-  CONCVEC VD;         // Deposition Velocity
-  CONCVEC E;          // Emissions
-  CONCMAT INITIAL;    // Initial Concentrations
+  MODPARAMS::CONCVEC BC;         // Boundary Conditions
+  MODPARAMS::CONCVEC VD;         // Deposition Velocity
+  MODPARAMS::CONCVEC E;          // Emissions
+  MODPARAMS::CONCMAT INITIAL;    // Initial Concentrations
 
   /*
 
@@ -134,7 +132,7 @@ int main(){
   */
 
 
-  for(int t=(initial_time-spinup_duration); t<initial_time ; t += time_step) {
+  for(int t=(MODPARAMS::initial_time - MODPARAMS::spinup_duration); t<MODPARAMS::initial_time ; t += MODPARAMS::time_step) {
       if (verbosity > 0) {cout << "spinup at time " << t << endl;}
 
       if (verbosity > 2) {cout << "running spinup emissions at time " << t << endl;}
@@ -149,7 +147,7 @@ int main(){
       if (verbosity > 2) {cout << "running spinup chemistry at time " << t << endl;}
       SSCOp.apply(C);
   }
-  for(int t=initial_time; t < final_time ; t += time_step) {
+  for(int t=iMODPARAMS::nitial_time; t < MODPARAMS::final_time ; t += MODPARAMS::time_step) {
       if (verbosity > 0) {cout << "running at time " << t << endl;}
 
       if (verbosity > 2) {cout << "running emissions at time " << t << endl;}

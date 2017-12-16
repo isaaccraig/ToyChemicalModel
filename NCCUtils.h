@@ -8,15 +8,13 @@ DESCRIBE !!!
 
 */
 
-using namespace MODPARAMS;
-
 namespace NCC_UTILS{
 
   namespace READIN {
 
-    void Emissions() {};
-    void Boundary() {};
-    void DepVel() {};
+    void Emissions(const char *filename) {};
+    void Boundary(const char *filename) {};
+    void DepVel(const char *filename) {};
 
   }
 
