@@ -1,16 +1,51 @@
 
 #include "Parameters.h"
+#include <iostream>
+#include <netcdf>
+using namespace std;
+using namespace netCDF;
+using namespace netCDF::exceptions;
 
-/*
 
-DESCRIBE !!!
+MODPARAMS::NVECTOR* NCC_UTILS::READIN::NVECTOR(const char *filename, const char *varname) {
 
-*/
+  try {
 
-void NCC_UTILS::READIN::Emissions(const char *filename) {};
+  double output[MODPARAMS::NX][MODPARAMS::NY][MODPARAMS::NZ];
+  const char path = INPUTPARAMS::InputLocation + "/" + (*filename);
 
-void NCC_UTILS::READIN::Boundary(const char *filename) {};
+  // Open for reading
+  NcFile dataFile(path, NcFile::read);
 
-void NCC_UTILS::READIN::DepVel(const char *filename) {};
+  // Throw Error If Not Found
+  if (not dataFile.is_valid())
+    const char msg = "Could Not Open" + (*filename) + "For Reading";
+    Utils::Error(&msg);
 
-void NCC_UTILS::SPITOUT::Concentrations(Concentrations* C) {};
+  // Retrieve the variable named "data"
+  NcVar data=dataFile.getVar(*varname);
+
+  // Throw Error If Not Found
+  if(data.isNull())
+    msg = "Could Not Find" + (*varname) + "in" + (*filename);
+    Utils::Error(&msg);
+
+  data.getVar(output);
+  // The netCDF file is automatically closed by the NcFile destructor
+
+  return MODUTILS::MAKE_NVEC(output);
+
+  } catch(NcException& e)
+    {
+      e.what();
+      cout<<"FAILURE READING NETCDF"<<endl;
+      exit(-1);
+    }
+};
+
+
+
+int NCC_UTILS::SPITOUT::Concentrations(Concentrations* C) {
+
+
+};

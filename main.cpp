@@ -16,10 +16,10 @@ int main(){
 
   */
 
-  MODPARAMS::CONCVEC BC;         // Boundary Conditions
-  MODPARAMS::CONCVEC VD;         // Deposition Velocity
-  MODPARAMS::CONCVEC E;          // Emissions
-  MODPARAMS::CONCMAT INITIAL;    // Initial Concentrations
+  MODPARAMS::NVEC BC;         // Boundary Conditions
+  MODPARAMS::NVEC VD;         // Deposition Velocity
+  MODPARAMS::NVEC E;          // Emissions
+  MODPARAMS::NVEC INITIAL;    // Initial Concentrations
 
   /*
 
@@ -30,13 +30,13 @@ int main(){
   */
 
   if (verbosity > 3) {cout << "reading in Emissions ..." << endl;}
-  NCC_UTILS::READIN::Emissions(&E);
+  *E = NCC_UTILS::READIN::NVEC(&(OUTPUTPARAMS::Efile));
 
   if (verbosity > 3) {cout << "reading in Boundary ... " << endl;}
-  NCC_UTILS::READIN::Boundary(&BC);
+  *BC = NCC_UTILS::READIN::NVEC(&(OUTPUTPARAMS::BCfile));
 
   if (verbosity > 3) {cout << "reading in DepVel ... " << endl;}
-  NCC_UTILS::READIN::DepVel(&VD);
+  *VD = NCC_UTILS::READIN::NVEC(&(OUTPUTPARAMS::VDfile));
 
   /*
 

@@ -12,15 +12,15 @@ namespace NCC_UTILS{
 
   namespace READIN {
 
-    void Emissions(const char *filename) {};
-    void Boundary(const char *filename) {};
-    void DepVel(const char *filename) {};
+    MODPARAMS::NMATRIX* Emissions(const char *filename);
+    MODPARAMS::NMATRIX* Boundary(const char *filename);
+    MODPARAMS::NMATRIX* DepVel(const char *filename);
 
   }
 
   namespace SPITOUT {
 
-    void Concentrations(Concentrations* C){};
+    int Concentrations(Concentrations* C);
 
   }
 }
