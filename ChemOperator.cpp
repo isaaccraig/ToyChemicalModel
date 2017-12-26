@@ -2,12 +2,13 @@
 #include "Operator.h"
 #include "Parameters.h"
 #include "ChemDeriv.h"
+#include "SSOperator.h"
 
-    ChemistryOperator::ChemistryOperator(SteadyStateOperator *SSOP, int active) {
+    ChemistryOperator::ChemistryOperator(SteadyStateOperator *SSOP, int active = 1) {
       this->applied = false; this->active = active; this->SSOP = *SSOP;
     }
 
-    float ChemistryOperator::apply(*Concentration C, double hour, double delt, double exit_time){
+    float ChemistryOperator::apply(Concentrations *C, double hour, double delt, double exit_time){
       for (int t=exit_time; t < MODPARAMS::time_step * 3600 ; t += delt){
           if (t%50 == 0) {cout << "running chem at" << t << "seconds" << endl;}
           for (int i =0; i < MODPARAMS::N; i++) {
@@ -17,11 +18,11 @@
 
             for (int n=0; n < MODPARAMS::NCHEM; n++){
               double dCdt = results[n] * delt;
-              if (C->values[i] + dCdt < 0){
+              if ((C->values)(n,i) + dCdt < 0){
                 cout << "WARNING NEGATIVE: " << n << endl;
                 return t;
               }
-              else {C->values[i] += dCdt;}
+              else {(C->values)(n,i) += dCdt;}
             }
 
             for (int n=0; n < MODPARAMS::NCHEM; n++){
@@ -30,7 +31,7 @@
               if (ss_val < 0)
                 cout << "WARNING NEGATIVE: " << n << endl;
                 return t;
-              else {C->values[i] = ss_val;}
+              else {(C->values)(n,i) = ss_val;}
             }
           }
       }

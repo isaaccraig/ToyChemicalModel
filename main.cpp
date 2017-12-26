@@ -1,25 +1,18 @@
 
-
+#include <iostream>
 #include "NCCUtils.h"
-#include "AdvectionDiffusionOperator.h"
+#include "AdvectionOperator.h"
 #include "DepositionOperator.h"
 #include "EmissionOperator.h"
-#include "SteadyStateOperator.h"
-#include "SSCChemistryOperator.h"
+#include "SSOperator.h"
+#include "SSCChemOperator.h"
 #include "Parameters.h"
+
+using namespace std;
 
 int main(){
 
-  /*
-
-  MODPARAMS in "Parameters.h" for type definitions
-
-  */
-
-  MODPARAMS::NVEC BC;         // Boundary Conditions
-  MODPARAMS::NVEC VD;         // Deposition Velocity
-  MODPARAMS::NVEC E;          // Emissions
-  MODPARAMS::NVEC INITIAL;    // Initial Concentrations
+  int debuglevel = 3;
 
   /*
 
@@ -29,14 +22,16 @@ int main(){
 
   */
 
-  if (verbosity > 3) {cout << "reading in Emissions ..." << endl;}
-  *E = NCC_UTILS::READIN::NVEC(&(OUTPUTPARAMS::Efile));
+  MODPARAMS::CONCMAT E;          // Emissions
+  *E = NCC_UTILS::READIN::CONCMAT(&(INPUTPARAMS::Efile));
 
-  if (verbosity > 3) {cout << "reading in Boundary ... " << endl;}
-  *BC = NCC_UTILS::READIN::NVEC(&(OUTPUTPARAMS::BCfile));
+  MODPARAMS::CONCMAT BC;         // Boundary Conditions
+  *BC = NCC_UTILS::READIN::CONCMAT(&(INPUTPARAMS::BCfile));
 
-  if (verbosity > 3) {cout << "reading in DepVel ... " << endl;}
-  *VD = NCC_UTILS::READIN::NVEC(&(OUTPUTPARAMS::VDfile));
+  MODPARAMS::NVECTOR VD;         // Deposition Velocity
+  *VD = NCC_UTILS::READIN::NVECTOR(&(INPUTPARAMS::VDfile));
+
+  MODPARAMS::CONCMAT INITIAL;    // Initial Concentrations
 
   /*
 
@@ -46,8 +41,7 @@ int main(){
 
   */
 
-  if (verbosity > 3) {cout << "Constructing Advection Diffusion Operator ..." << endl;}
-  AdvectionDiffusionOperator AdvDifOp(&BC);
+  AdvectionOperator AdvDifOp(&BC);
 
   /*
 
@@ -57,7 +51,6 @@ int main(){
 
   */
 
-  if (verbosity > 3) {cout << "Constructing Emission Operator ..." << endl;}
   EmissionOperator EmOp(&E);
 
   /*
@@ -68,7 +61,6 @@ int main(){
 
   */
 
-  if (verbosity > 3) {cout << "Constructing Depositon Operator ..." << endl;}
   DepositionOperator DepOp(&VD);
 
   /*
@@ -80,7 +72,6 @@ int main(){
 
   */
 
-  if (verbosity > 3) {cout << "Constructing SS Operator ..." << endl;}
   SteadyStateOperator SSOp();             // used within chem
 
   /*
@@ -92,7 +83,6 @@ int main(){
 
   */
 
-  if (verbosity > 3) {cout << "Constructing Chemistry Operator ..." << endl;}
   ChemistryOperator ChemOp(&SSOp);        // used within SSC chem
 
   /*
@@ -105,8 +95,7 @@ int main(){
 
   */
 
-  if (verbosity > 3) {cout << "Constructing SSC Chemistry Operator ..." << endl;}
-  SSControledChemOperator SSCOp(&ChemOp);
+  SSControledChemOperator SSCChemOp(&ChemOp);
 
   /*
 
@@ -115,8 +104,7 @@ int main(){
 
   */
 
-  if (verbosity > 3) {cout << "Constructing Concentrations Operator ..." << endl;}
-  C Concentrations(&INITIAL);
+  Concentrations C(INITIAL);
 
   /*
 
@@ -133,34 +121,34 @@ int main(){
 
 
   for(int t=(MODPARAMS::initial_time - MODPARAMS::spinup_duration); t<MODPARAMS::initial_time ; t += MODPARAMS::time_step) {
-      if (verbosity > 0) {cout << "spinup at time " << t << endl;}
+      if (debuglevel > 0) {cout << "spinup at time " << t << endl;}
 
-      if (verbosity > 2) {cout << "running spinup emissions at time " << t << endl;}
+      if (debuglevel > 2) {cout << "running spinup emissions at time " << t << endl;}
       EmOp.apply(C);
 
-      if (verbosity > 2) {cout << "running spinup deposition at time " << t << endl;}
+      if (debuglevel > 2) {cout << "running spinup deposition at time " << t << endl;}
       DepOp.apply(C);
 
-      if (verbosity > 2) {cout << "running spinup advection at time " << t << endl;}
+      if (debuglevel > 2) {cout << "running spinup advection at time " << t << endl;}
       AdvDifOp.apply(C);
 
-      if (verbosity > 2) {cout << "running spinup chemistry at time " << t << endl;}
-      SSCOp.apply(C);
+      if (debuglevel > 2) {cout << "running spinup chemistry at time " << t << endl;}
+      SSCChemOp.apply(&C, t);
   }
-  for(int t=iMODPARAMS::nitial_time; t < MODPARAMS::final_time ; t += MODPARAMS::time_step) {
-      if (verbosity > 0) {cout << "running at time " << t << endl;}
+  for(int t=MODPARAMS::initial_time; t < MODPARAMS::final_time ; t += MODPARAMS::time_step) {
+      if (debuglevel > 0) {cout << "running at time " << t << endl;}
 
-      if (verbosity > 2) {cout << "running emissions at time " << t << endl;}
+      if (debuglevel > 2) {cout << "running emissions at time " << t << endl;}
       EmOp.apply(C);
 
-      if (verbosity > 2) {cout << "running depostion at time " << t << endl;}
+      if (debuglevel > 2) {cout << "running depostion at time " << t << endl;}
       DepOp.apply(C);
 
-      if (verbosity > 2) {cout << "running advection at time " << t << endl;}
+      if (debuglevel > 2) {cout << "running advection at time " << t << endl;}
       AdvDifOp.apply(C);
 
-      if (verbosity > 2) {cout << "running chemistry at time " << t << endl;}
-      SSCOp.apply(C);
+      if (debuglevel > 2) {cout << "running chemistry at time " << t << endl;}
+      SSCChemOp.apply(&C, t);
   }
 
   /*
@@ -172,7 +160,7 @@ int main(){
 
   */
 
-  if (verbosity > 0) {cout << "creating NETCDF " << t << endl;}
-  NCC_UTILS::SPITOUT::Concentrations(&C, include_params=true, include_inputs=true);
+  //if (debuglevel > 0) {cout << "creating NETCDF " << t << endl;}
+  //NCC_UTILS::SPITOUT::Concentrations(&C, include_params=true, include_inputs=true);
 
 }

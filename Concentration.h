@@ -1,14 +1,14 @@
 
 #pragma once
-#include "Operator.h"
 #include "Parameters.h"
+#include <string>
 
 class Concentrations{
 
 public:
-  string names[MODPARAMS::NCHEM];
-  string argnames[MODPARAMS::NCHEM - MODPARAMS::NSTAT];
+  std::string names[MODPARAMS::NCHEM];
+  std::string argnames[MODPARAMS::NCHEM - MODPARAMS::NSTAT];
   MODPARAMS::CONCMAT values;
-  Concentrations(initial);
+  Concentrations(MODPARAMS::CONCMAT initial);
   ~Concentrations();
-}
+};

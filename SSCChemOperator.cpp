@@ -1,10 +1,10 @@
 
 #include "Operator.h"
-#include "Chemistry.h"
+#include "ChemOperator.h"
 #include "Parameters.h"
 
 
-    SSControledChemOperator::SSControledChemOperator(ChemistryOperator *O, int active) {
+    SSControledChemOperator::SSControledChemOperator(ChemistryOperator *O, int active = 1) {
       this->applied = false; this->active = active; this->O = *O;
     }
 
@@ -15,7 +15,7 @@
         Utils::Error("Unintended SSC Chemsitry Application");
     }
 
-    void SSControledChemOperator::apply(*Concentration C, double hour) {
+    void SSControledChemOperator::apply(Concentrations *C, double hour) {
       if (active)
         applied = true;
         // step size controled call

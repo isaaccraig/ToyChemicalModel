@@ -1,15 +1,16 @@
 
 #pragma once
+#include "Concentration.h"
 
 class DepositionOperator {
 
   public:
-    void apply(*Concentration C);
+    void apply(Concentrations *C);
     bool check();
-    DepositionOperator(MATRIX *vd, bool active);
+    DepositionOperator(MODPARAMS::NVECTOR *vd, bool active);
     ~DepositionOperator();
   private:
-    MATRIX vd;
+    MODPARAMS::NVECTOR vd;
     bool applied;
     bool active;
 };

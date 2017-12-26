@@ -1,9 +1,8 @@
 
-#include "SteadyStateOperator.h"
+#include "SSOperator.h"
 #include "Parameters.h" // For MODPARAMS namespace
 #include <map>
 #include <string>
-
 
   SteadyStateOperator::SteadyStateOperator(void){
 

@@ -1,17 +1,17 @@
 
 #pragma once
-#include "Paramteters.h" // For MODELPARAMS namespace
+#include "Parameters.h" // For MODELPARAMS namespace
 #include "Concentration.h" // For Concentration Class
 
-class EmisOperator {
+class EmissionOperator {
 
   public:
-    void apply(*Concentration C);
+    void apply(Concentrations *C);
     bool check();
-    EmisOperator(MODELPARAMS::NMATRIX *E, int active);
-    ~EmisOperator();
+    EmissionOperator(MODPARAMS::CONCMAT *E, int active);
+    ~EmissionOperator();
   private:
-    MODELPARAMS::NMATRIX E;
+    MODPARAMS::CONCMAT E;
     bool applied;
     bool active;
 };

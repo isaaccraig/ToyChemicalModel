@@ -1,16 +1,16 @@
 
 #include "CrankNicolson.h"
 #include "Parameters.h"
-#include <math>
+#include <cmath>
 
-AdvDifOperator::AdvDifOperator(MODPARAMS::CONCMAT *bc, bool active=true) {
+AdvectionOperator::AdvectionOperator(MODPARAMS::CONCMAT *bc, bool active=true) {
   this->applied = false;
   this->active = active;
   this->bc = *bc;
   initialize_diags();
 }
 
-void AdvDifOperator::apply(MODPARAMS::NVECTOR *C){
+void AdvectionOperator::apply(MODPARAMS::NVECTOR *C){
   if (active)
     applied = true;
     CrankNicolson(C, leftdiags, rightdiags);
@@ -18,21 +18,21 @@ void AdvDifOperator::apply(MODPARAMS::NVECTOR *C){
 }
 
 
-void AdvDifOperator::apply(MODPARAMS::CONCMAT *C){
+void AdvectionOperator::apply(Concentrations *C){
 // To apply to a full NCHEM x N matrix,
 // run and slice up for each CONCMAT(n,:) term
   if (active)
     applied = true;
     MODPARAMS::NVECTOR flat_C;
     for (int n=0; n<MODPARAMS::NCHEM; n++)
-      flat_C(:) = *C(n,:); // Selects a portion of C corresponding to chemical n
+      flat_C(:) = (C->values)(n,:); // Selects a portion of C corresponding to chemical n
       CrankNicolson(&flat_C, leftdiags, rightdiags); // perturbs this slice
-      *C(n,:) = flat_C; // Reassigns perturbed slice
+      (C->values)(n,:) = flat_C; // Reassigns perturbed slice
     check(); // checks for application and errors, inherited method from Operator
     }
 
 
-void AdvDifOperator::initialize_diags(){
+void AdvectionOperator::initialize_diags(){
 
   double rx =   PHYSPARAMS::D * MODPARAMS::dt/pow(MODPARAMS::del_x,2);
   double Crx =  PHYSPARAMS::u * MODPARAMS::dt/(MODPARAMS::del_x);

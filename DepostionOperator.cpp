@@ -1,7 +1,8 @@
 
 #include "Parameters.h"
+#include "Concentration.h"
 
-DepositionOperator::DepositionOperator(MODPARAMS::MATRIX *vd, bool active){
+DepositionOperator::DepositionOperator(MODPARAMS::NVECTOR *vd, bool active = true){
   this->applied = false;
   this->vd = vd;
   this->active = active;
@@ -14,7 +15,7 @@ bool EmisOperator::check() {
     Utils::Error("Unintended Deposition Application");
 }
 
-void DepositionOperator::apply(*Concentration C) {
+void DepositionOperator::apply(Concentrations *C) {
     if (active)
       for (int n=0; n<MODPARAMS::NCHEM; n++)
           for (int i=0; i<MODPARAMS::N; i++)

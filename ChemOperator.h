@@ -1,13 +1,13 @@
 
 #pragma once
-#include "SteadyStateOperator.h"
+#include "SSOperator.h"
 
 
 class ChemistryOperator {
 
   public:
 
-    float apply(*Concentration C, double hour, double delt, double exit_time);
+    float apply(Concentrations *C, double hour, double delt, double exit_time);
     ChemistryOperator(SteadyStateOperator *SSOP, int active);
     ~ChemistryOperator();
 

@@ -1,13 +1,13 @@
 
 #pragma once
-#include "Chemistry.h"
+#include "ChemOperator.h"
 #include "Parameters.h"
 
 class SSControledChemOperator{
 
   public:
 
-    void apply(*Concentration C, double hour);
+    void apply(Concentrations *C, double hour);
     SSControledChemOperator(ChemistryOperator *O, int active);
     ~SSControledChemOperator();;
 
@@ -16,5 +16,4 @@ class SSControledChemOperator{
     double exit_time;
     ChemistryOperator O;
 
-  }
-};
+  };

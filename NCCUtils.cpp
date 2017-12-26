@@ -2,12 +2,13 @@
 #include "Parameters.h"
 #include <iostream>
 #include <netcdf>
+#include <string>
 using namespace std;
 using namespace netCDF;
 using namespace netCDF::exceptions;
 
 
-MODPARAMS::NVECTOR* NCC_UTILS::READIN::NVECTOR(const char *filename, const char *varname) {
+MODPARAMS::NVECTOR* NCC_UTILS::READIN::NVECTOR(const std::string *filename) {
 
   try {
 
@@ -22,7 +23,11 @@ MODPARAMS::NVECTOR* NCC_UTILS::READIN::NVECTOR(const char *filename, const char 
     const char msg = "Could Not Open" + (*filename) + "For Reading";
     Utils::Error(&msg);
 
-  // Retrieve the variable named "data"
+  // Retrieve the variable varname
+
+
+  // TO DO : CHANGE SO THAT READS IN ALL
+
   NcVar data=dataFile.getVar(*varname);
 
   // Throw Error If Not Found
@@ -42,8 +47,6 @@ MODPARAMS::NVECTOR* NCC_UTILS::READIN::NVECTOR(const char *filename, const char 
       exit(-1);
     }
 };
-
-
 
 int NCC_UTILS::SPITOUT::Concentrations(Concentrations* C) {
 

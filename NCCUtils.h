@@ -1,6 +1,7 @@
 
 #pragma once
 #include "Parameters.h"
+#include <string>
 
 /*
 
@@ -12,15 +13,13 @@ namespace NCC_UTILS{
 
   namespace READIN {
 
-    MODPARAMS::NMATRIX* Emissions(const char *filename);
-    MODPARAMS::NMATRIX* Boundary(const char *filename);
-    MODPARAMS::NMATRIX* DepVel(const char *filename);
+    MODPARAMS::NVECTOR* NVECTOR(const std::string *filename);
+
+    MODPARAMS::CONCMAT* CONCMAT(const std::string *filename);
 
   }
 
   namespace SPITOUT {
-
-    int Concentrations(Concentrations* C);
 
   }
 }
