@@ -1,12 +1,13 @@
 
-#include "Operator.h"
 #include "Parameters.h"
 #include "ChemDeriv.h"
 #include "SSOperator.h"
 
-    ChemistryOperator::ChemistryOperator(SteadyStateOperator *SSOP, int active = 1) {
+    ChemistryOperator::ChemistryOperator(SteadyStateOperator *SSOP, int active) {
       this->applied = false; this->active = active; this->SSOP = *SSOP;
     }
+
+    ChemistryOperator::~ChemistryOperator(){};
 
     float ChemistryOperator::apply(Concentrations *C, double hour, double delt, double exit_time){
       for (int t=exit_time; t < MODPARAMS::time_step * 3600 ; t += delt){

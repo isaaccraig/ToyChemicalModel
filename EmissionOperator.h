@@ -4,11 +4,10 @@
 #include "Concentration.h" // For Concentration Class
 
 class EmissionOperator {
-
   public:
     void apply(Concentrations *C);
-    bool check();
-    EmissionOperator(MODPARAMS::CONCMAT *E, int active);
+    void check();
+    EmissionOperator(MODPARAMS::CONCMAT *E, int active = 1);
     ~EmissionOperator();
   private:
     MODPARAMS::CONCMAT E;

@@ -1,10 +1,9 @@
 
-#include "Operator.h"
 #include "ChemOperator.h"
 #include "Parameters.h"
 
 
-    SSControledChemOperator::SSControledChemOperator(ChemistryOperator *O, int active = 1) {
+    SSControledChemOperator::SSControledChemOperator(ChemistryOperator *O, int active) {
       this->applied = false; this->active = active; this->O = *O;
     }
 
@@ -28,3 +27,5 @@
         }
         check();
     }
+
+    SSControledChemOperator::~SSControledChemOperator() {};

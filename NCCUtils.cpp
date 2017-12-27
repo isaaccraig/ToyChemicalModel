@@ -24,8 +24,6 @@ MODPARAMS::NVECTOR* NCC_UTILS::READIN::NVECTOR(const std::string *filename) {
     Utils::Error(&msg);
 
   // Retrieve the variable varname
-
-
   // TO DO : CHANGE SO THAT READS IN ALL
 
   NcVar data=dataFile.getVar(*varname);

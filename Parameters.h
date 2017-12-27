@@ -35,7 +35,6 @@ namespace PHYSPARAMS {
 };
 
 namespace INPUTPARAMS {
-
   const std::string InputLocation = "/Documents/Models/CTTM/";
   const std::string Efile = "Emission.nc";
   const std::string BCfile = "Boundary.nc";

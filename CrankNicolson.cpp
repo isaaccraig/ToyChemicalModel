@@ -1,5 +1,7 @@
 
 #include "Parameters.h"
+#include "CrankNicolson.h"
+#include "Eigen/Dense"
 
 inline void CrankNicolson ( MODPARAMS::NVECTOR *flat_C,
                             double leftdiags[],
@@ -12,8 +14,8 @@ inline void CrankNicolson ( MODPARAMS::NVECTOR *flat_C,
   MODPARAMS::NMATRIX L;
   MODPARAMS::NVECTOR boundary;
 
-  for (int i=0; i<N; i++) {
-    for (int j=0; j<N; j++) {
+  for (int i=0; i<MODPARAMS::N; i++) {
+    for (int j=0; j<MODPARAMS::N; j++) {
         if (i == j) {
             if (zindex(j) != 0) {
               R(i,j) = rightdiags[0];
@@ -25,7 +27,7 @@ inline void CrankNicolson ( MODPARAMS::NVECTOR *flat_C,
             }
         }
         if (i + 1 == j) {
-            if (zindex(j) != nz - 1) {// positive z boundary
+            if (zindex(j) != MODPARAMS::NZ - 1) {// positive z boundary
               R(i,j) = rightdiags[5];
               L(i,j) = leftdiags[5];
             }
@@ -39,8 +41,8 @@ inline void CrankNicolson ( MODPARAMS::NVECTOR *flat_C,
               R(i,j) = rightdiags[6];
             } // subdiagonal and superdiagonal for z are zero here, no BC needed
         }
-        if (i + (nz - 1) == j){
-            if (yindex(j) != ny - 1){
+        if (i + (MODPARAMS::NZ - 1) == j){
+            if (yindex(j) != MODPARAMS::NY - 1){
               R(i,j) = rightdiags[3];
               L(i,j) = leftdiags[3];
             }
@@ -48,7 +50,7 @@ inline void CrankNicolson ( MODPARAMS::NVECTOR *flat_C,
               boundary(i) += (rightdiags[3] - leftdiags[3]) * BC[3];
             }
         }
-        if (i - (nz - 1) == j) {
+        if (i - (MODPARAMS::NZ - 1) == j) {
             if (yindex(j) != 0) {
               R(i,j) = rightdiags[4];
               L(i,j) = leftdiags[4];
@@ -57,8 +59,8 @@ inline void CrankNicolson ( MODPARAMS::NVECTOR *flat_C,
               boundary(i) += (rightdiags[4] - leftdiags[4]) * BC[2];
             }
         }
-        if (i + (nz*ny - 1) == j) {
-            if (xindex(j) != nx - 1) {
+        if (i + (MODPARAMS::NZ*MODPARAMS::NY - 1) == j) {
+            if (xindex(j) != MODPARAMS::NX - 1) {
               R(i,j) = rightdiags[1];
               L(i,j) = leftdiags[1];
             }
@@ -66,7 +68,7 @@ inline void CrankNicolson ( MODPARAMS::NVECTOR *flat_C,
               boundary(i) += (rightdiags[1] - leftdiags[1]) * BC[1];
             }
         }
-        if (i - (nz*ny - 1) == j) {
+        if (i - (MODPARAMS::NZ*MODPARAMS::NY - 1) == j) {
             if (xindex(j) != 0) {
               R(i,j) = rightdiags[2];
               L(i,j) = leftdiags[2];
@@ -78,7 +80,7 @@ inline void CrankNicolson ( MODPARAMS::NVECTOR *flat_C,
       }
     }
 
-    MODPARAMS::NVECTOR right = R.dot(flat_C) + boundary;
-    *flat_C = L.colPivHouseholderQr().solve(right);  // Solves L * new_C = R * flat_C + boundary
+  MODPARAMS::NVECTOR right = R * (*flat_C) + boundary;
+  *flat_C = L.colPivHouseholderQr().solve(right);  // Solves L * new_C = R * flat_C + boundary
 
 }

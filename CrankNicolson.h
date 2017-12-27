@@ -1,4 +1,5 @@
 
+#pragma once
 #include "Parameters.h"
 
 inline int xindex (int i) {return i / (MODPARAMS::NY * MODPARAMS::NZ);}

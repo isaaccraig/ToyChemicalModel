@@ -23,13 +23,13 @@ int main(){
   */
 
   MODPARAMS::CONCMAT E;          // Emissions
-  *E = NCC_UTILS::READIN::CONCMAT(&(INPUTPARAMS::Efile));
+  E = *NCC_UTILS::READIN::CONCMAT(&(INPUTPARAMS::Efile));
 
   MODPARAMS::CONCMAT BC;         // Boundary Conditions
-  *BC = NCC_UTILS::READIN::CONCMAT(&(INPUTPARAMS::BCfile));
+  BC = *NCC_UTILS::READIN::CONCMAT(&(INPUTPARAMS::BCfile));
 
-  MODPARAMS::NVECTOR VD;         // Deposition Velocity
-  *VD = NCC_UTILS::READIN::NVECTOR(&(INPUTPARAMS::VDfile));
+  MODPARAMS::POINTCHEMMAP VD;         // Deposition Velocity
+  VD = *NCC_UTILS::READIN::POINTCHEMMAP(&(INPUTPARAMS::VDfile));
 
   MODPARAMS::CONCMAT INITIAL;    // Initial Concentrations
 
@@ -72,7 +72,7 @@ int main(){
 
   */
 
-  SteadyStateOperator SSOp();             // used within chem
+  SteadyStateOperator SSOp;             // used within chem
 
   /*
 
@@ -124,13 +124,13 @@ int main(){
       if (debuglevel > 0) {cout << "spinup at time " << t << endl;}
 
       if (debuglevel > 2) {cout << "running spinup emissions at time " << t << endl;}
-      EmOp.apply(C);
+      EmOp.apply(&C);
 
       if (debuglevel > 2) {cout << "running spinup deposition at time " << t << endl;}
-      DepOp.apply(C);
+      DepOp.apply(&C);
 
       if (debuglevel > 2) {cout << "running spinup advection at time " << t << endl;}
-      AdvDifOp.apply(C);
+      AdvDifOp.apply(&C);
 
       if (debuglevel > 2) {cout << "running spinup chemistry at time " << t << endl;}
       SSCChemOp.apply(&C, t);
@@ -139,13 +139,13 @@ int main(){
       if (debuglevel > 0) {cout << "running at time " << t << endl;}
 
       if (debuglevel > 2) {cout << "running emissions at time " << t << endl;}
-      EmOp.apply(C);
+      EmOp.apply(&C);
 
       if (debuglevel > 2) {cout << "running depostion at time " << t << endl;}
-      DepOp.apply(C);
+      DepOp.apply(&C);
 
       if (debuglevel > 2) {cout << "running advection at time " << t << endl;}
-      AdvDifOp.apply(C);
+      AdvDifOp.apply(&C);
 
       if (debuglevel > 2) {cout << "running chemistry at time " << t << endl;}
       SSCChemOp.apply(&C, t);

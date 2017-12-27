@@ -6,11 +6,11 @@ class DepositionOperator {
 
   public:
     void apply(Concentrations *C);
-    bool check();
-    DepositionOperator(MODPARAMS::NVECTOR *vd, bool active);
+    void check();
+    DepositionOperator(MODPARAMS::POINTCHEMMAP *vd, int active=1);
     ~DepositionOperator();
   private:
-    MODPARAMS::NVECTOR vd;
+    MODPARAMS::POINTCHEMMAP vd;
     bool applied;
     bool active;
 };

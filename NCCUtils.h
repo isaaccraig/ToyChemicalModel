@@ -17,6 +17,8 @@ namespace NCC_UTILS{
 
     MODPARAMS::CONCMAT* CONCMAT(const std::string *filename);
 
+    MODPARAMS::POINTCHEMMAP* POINTCHEMMAP(const std::string *filename);
+
   }
 
   namespace SPITOUT {
