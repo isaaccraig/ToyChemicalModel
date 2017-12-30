@@ -1,6 +1,6 @@
 
-OBJS = main.o Concentration.o CrankNicolson.o EmissionOperator.o AdvectionOperator.o DepositionOperator.o \
-  SSOperator.o ChemOperator.o SSCChemOperator.o NCCUtils.o
+OBJS = main.o Concentration.o CrankNicolson.o chemderiv.o EmissionOperator.o DepositionOperator.o \
+  SSOperator.o AdvectionOperator.o ChemOperator.o SSCChemOperator.o NCCUtils.o
 
 
 CC = g++
@@ -26,7 +26,7 @@ EmissionOperator.o : EmissionOperator.h EmissionOperator.cpp Utils.h Parameters.
 SSCChemOperator.o : SSCChemOperator.h SSCChemOperator.cpp Utils.h Parameters.h ChemOperator.h
 	$(CC) $(CFLAGS) SSCChemOperator.cpp
 
-ChemOperator.o : ChemOperator.h ChemOperator.cpp Parameters.h SSOperator.h ChemDeriv.h
+ChemOperator.o : ChemOperator.h ChemOperator.cpp Parameters.h SSOperator.h chemderiv.h
 	$(CC) $(CFLAGS) ChemOperator.cpp
 
 SSOperator.o : SSOperator.h SSOperator.cpp Parameters.h
@@ -34,6 +34,9 @@ SSOperator.o : SSOperator.h SSOperator.cpp Parameters.h
 
 CrankNicolson.o : CrankNicolson.h CrankNicolson.cpp Parameters.h
 	$(CC) $(CFLAGS) CrankNicolson.cpp
+
+chemderiv.o : chemderiv.h
+	$(CC) $(CFLAGS) chemderiv.cpp
 
 NCCUtils.o : NCCUtils.h NCCUtils.cpp Parameters.h
 	$(CC) $(CFLAGS) NCCUtils.cpp

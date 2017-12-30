@@ -21,6 +21,7 @@ namespace MODPARAMS {
 
    typedef Eigen::Matrix<double,N,N>       NMATRIX;
    typedef Eigen::Matrix<double,N,1>       NVECTOR;
+   typedef Eigen::Matrix<double,NCHEM,1>   NCHEMVECTOR;
    typedef Eigen::Matrix<double,NCHEM,N>   CONCMAT;
    typedef std::map<std::string,NVECTOR>   FULLCHEMMAP;
    typedef std::map<std::string,double>    POINTCHEMMAP;

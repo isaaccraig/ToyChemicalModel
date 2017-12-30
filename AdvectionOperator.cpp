@@ -6,7 +6,7 @@
 #include "Utils.h"
 #include <cmath>
 
-AdvectionOperator::AdvectionOperator(MODPARAMS::CONCMAT *bc, int active) {
+AdvectionOperator::AdvectionOperator(*bc, int active) {
   this->applied = false;
   this->active = active;
   this->bc = *bc;
@@ -22,13 +22,6 @@ void AdvectionOperator::check() {
     Utils::Error("Unintended Advection Application");
 }
 
-void AdvectionOperator::apply(MODPARAMS::NVECTOR *C){
-  if (active)
-    applied = true;
-    CrankNicolson(C, leftdiags, rightdiags, noflux_diagonal_right, noflux_diagonal_left, BC[6]);
-    check();
-}
-
 void AdvectionOperator::apply(Concentrations *C){
 // To apply to a full NCHEM x N matrix,
 // run and slice up for each CONCMAT(n,:) term
@@ -37,7 +30,8 @@ void AdvectionOperator::apply(Concentrations *C){
     MODPARAMS::NVECTOR flat_C;
     for (int n=0; n<MODPARAMS::NCHEM; n++)
       flat_C(:) = (C->values)(n,:); // Selects a portion of C corresponding to chemical n
-      CrankNicolson(&flat_C, leftdiags, rightdiags); // perturbs this slice
+      CrankNicolson(&flat_C, leftdiags, rightdiags, noflux_diagonal_right, noflux_diagonal_left, bc);
+      // perturbs this slice
       C->values(n,:) = flat_C; // Reassigns perturbed slice
     check(); // checks for application and errors, inherited method from Operator
     }
@@ -52,7 +46,10 @@ void AdvectionOperator::initialize_diags(){
   double rz =   PHYSPARAMS::D * 3600 * MODPARAMS::time_step/pow(MODPARAMS::del_z,2);
   double Crz =  PHYSPARAMS::W * 3600 * MODPARAMS::time_step/(MODPARAMS::del_z);
 
-  leftdiags[] =  {        1 + rx + ry + rz,
+  noflux_diagonal_right = 1 + rx + ry;
+  noflux_diagonal_left = 1 - rx - ry;
+
+  leftdiags[7] =  {        1 + rx + ry + rz,
                           - ry/2 + Cry/4,
                           - rx/2 - Crx/4,
                           - ry/2 + Cry/4,
@@ -60,7 +57,7 @@ void AdvectionOperator::initialize_diags(){
                           - rz/2 + Crz/4,
                           - rz/2 - Crz/4};
 
-  rightdiags[] = {        1 + rx - ry - rz,
+  rightdiags[7] = {        1 + rx - ry - rz,
                           ry/2 + Cry/4,
                           rx/2 - Crx/4,
                           ry/2 + Cry/4,

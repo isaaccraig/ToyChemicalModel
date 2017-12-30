@@ -12,7 +12,7 @@ class AdvectionOperator {
     void apply(Concentrations *C);
     void apply(MODPARAMS::NVECTOR  *C);
     void check();
-    AdvectionOperator(MODPARAMS::CONCMAT *bc, int active=1);
+    AdvectionOperator(MODPARAMS::NCHEMVECTOR *bc, int active=1);
     ~AdvectionOperator();
 
   private:
@@ -20,6 +20,8 @@ class AdvectionOperator {
     MODPARAMS::CONCMAT bc;
     double leftdiags[7];
     double rightdiags[7];
+    double noflux_diagonal_right;
+    double noflux_diagonal_left;
     int applied;
     int active;
 

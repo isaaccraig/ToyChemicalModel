@@ -25,11 +25,12 @@ int main(){
   MODPARAMS::CONCMAT E;          // Emissions
   E = *NCC_UTILS::READIN::CONCMAT(&(INPUTPARAMS::Efile));
 
-  MODPARAMS::CONCMAT BC;         // Boundary Conditions
-  BC = *NCC_UTILS::READIN::CONCMAT(&(INPUTPARAMS::BCfile));
-
   MODPARAMS::POINTCHEMMAP VD;         // Deposition Velocity
   VD = *NCC_UTILS::READIN::POINTCHEMMAP(&(INPUTPARAMS::VDfile));
+
+  MODPARAMS::NCHEMVECTOR BC;
+  for (int n=0; n<MODPARAMS::NCHEM; n++)
+    BC(n) = 0;
 
   MODPARAMS::CONCMAT INITIAL;    // Initial Concentrations
 
