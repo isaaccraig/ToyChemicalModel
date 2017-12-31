@@ -1,16 +1,14 @@
 
 #include <iostream>
-#include "NCCUtils.h"
-#include "AdvectionOperator.h"
-#include "DepositionOperator.h"
-#include "EmissionOperator.h"
-#include "SSOperator.h"
-#include "SSCChemOperator.h"
-#include "Parameters.h"
+#include "NCCUtils.hpp"
+#include "AdvectionOperator.hpp"
+#include "DepositionOperator.hpp"
+#include "EmissionOperator.hpp"
+#include "SSOperator.hpp"
+#include "SSCChemOperator.hpp"
+#include "Parameters.hpp"
 
 using namespace std;
-using namespace MODPARAMS;
-using namespace INPUTPARAMS;
 
 int main(){
 
@@ -18,9 +16,9 @@ int main(){
 
   /*
 
-  READ NETCDF FILES OF DATA HERE : using the netcdf utility functions from NCCUtils.h,
+  READ NETCDF FILES OF DATA HERE : using the netcdf utility functions from NCCUtils.hpp,
   which includes a namespace for reading in NETCDF files in the given application.
-  The filenames are contained within the INPUTPARAMS namespace within "Parameters.h"
+  The filenames are contained within the INPUTPARAMS namespace within "Parameters.hpp"
 
   */
 
@@ -28,7 +26,6 @@ int main(){
   FULLCHEMMAP E = NCC_READIN<NVECTOR>(&(Efile), Evars);
   POINTCHEMMAP VD = NCC_READIN<double>(&(VDfile), VDvars);
   BCMAP BC = NCC_READIN<BCVEC>(&(BCfile), BCvars);
-  FULLCHEMMAP INITIAL;    // Initial Concentrations
   */
 
   FULLCHEMMAP E;
@@ -39,7 +36,7 @@ int main(){
   /*
 
   Instantiation of an Advection Diffusion Operator Object, defined within
-  "AdvectionDiffusionOperator.h", which takes a CONCVEC type input
+  "AdvectionDiffusionOperator.hpp", which takes a CONCVEC type input
   obtained through NCC_UTILS::READIN::Boundary
 
   */
@@ -49,7 +46,7 @@ int main(){
   /*
 
   Instantiation of an Emission Operator Object, defined within
-  "EmissionOperator.h", which takes a CONCVEC type input
+  "EmissionOperator.hpp", which takes a CONCVEC type input
   obtained through NCC_UTILS::READIN::DepVel
 
   */
@@ -59,7 +56,7 @@ int main(){
   /*
 
   Instantiation of a Deposition Operator Object, defined within
-  "DepositionOperator.h", which takes a CONCVEC type input
+  "DepositionOperator.hpp", which takes a CONCVEC type input
   obtained through NCC_UTILS::READIN::Boundary
 
   */
@@ -69,7 +66,7 @@ int main(){
   /*
 
   Instantiation of an SSC Chemistry Operator Object, defined within
-  "SSCChemistryOperator.h", which takes a Chemistry Operator Object
+  "SSCChemistryOperator.hpp", which takes a Chemistry Operator Object
   and wraps it with Step Size Control Functionality to prevent
   unstable behavior from insufficently small time steps taken to approximate
   the highly stiff system
@@ -81,7 +78,7 @@ int main(){
   /*
 
   Instantiation of a Concentration Object Instance, defined within
-  "Chemistry.h"
+  "Chemistry.hpp"
 
   */
 
@@ -92,7 +89,7 @@ int main(){
   Cycles through the Spinup time frame and model time frame, applying each Operator Object
   to the Concentration Object Sequentially.
 
-  See MODPARAMS in "Parameters.h" for parameters :
+  See MODPARAMS in "Parameters.hpp" for parameters :
             initial_time
             time_step
             spinup_duration
@@ -100,7 +97,7 @@ int main(){
 
   */
 
-  for(int t=(initial_time - spinup_duration); t<initial_time ; t += time_step) {
+  for(int t=(PARAMS_initial_time - PARAMS_spinup_duration); t<PARAMS_initial_time ; t += PARAMS_time_step) {
       if (debuglevel > 0) {cout << "spinup at time " << t << endl;}
 
       if (debuglevel > 2) {cout << "running spinup emissions at time " << t << endl;}
@@ -116,7 +113,7 @@ int main(){
       SSCChemOp.apply(&C, t);
   }
 
-  for(int t=initial_time; t < final_time ; t += time_step) {
+  for(int t=PARAMS_initial_time; t < PARAMS_final_time ; t += PARAMS_time_step) {
       if (debuglevel > 0) {cout << "running at time " << t << endl;}
 
       if (debuglevel > 2) {cout << "running emissions at time " << t << endl;}
@@ -134,7 +131,7 @@ int main(){
 
   /*
 
-  WRITE NETCDF FILE OF DATA HERE : using the netcdf utility functions from NCCUtils.h,
+  WRITE NETCDF FILE OF DATA HERE : using the netcdf utility functions from NCCUtils.hpp,
   which includes a namespace for spitting out NETCDF files in the given application.
   The inputs include_inputs and include_params cause the func to save parameters and inputs
   to a log file of the same name.

@@ -1,6 +1,6 @@
 
-#include "NCCUtils.h"
-#include "Utils.h"
+#include "NCCUtils.hpp"
+#include "Utils.hpp"
 #include <iostream>
 #include <netcdf>
 #include <map>
@@ -13,7 +13,7 @@ template <typename T>
   try {
     map<string, T> result;
     T result_piece;
-    NcFile dataFile(INPUTPARAMS::InputLocation + *filename, NcFile::read);
+    NcFile dataFile(PARAMS_InputLocation + *filename, NcFile::read);
 
     for (int n=0; n<varnames.size(); n++) {
       NcVar data=dataFile.getVar(varnames[n]);

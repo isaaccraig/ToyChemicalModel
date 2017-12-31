@@ -1,7 +1,7 @@
 
 #pragma once
-#include "ChemOperator.h"
-#include "Parameters.h"
+#include "ChemOperator.hpp"
+#include "Parameters.hpp"
 
 class SSControledChemOperator{
 
@@ -16,7 +16,6 @@ class SSControledChemOperator{
 
     bool applied;
     bool active;
-    double exit_time;
     ChemistryOperator ChemOp;
 
   };

@@ -1,7 +1,7 @@
 
 #pragma once
-#include "SSOperator.h"
-#include "Concentration.h"
+#include "SSOperator.hpp"
+#include "Concentration.hpp"
 
 class ChemistryOperator {
 

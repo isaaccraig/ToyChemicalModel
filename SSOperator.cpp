@@ -1,6 +1,6 @@
 
-#include "SSOperator.h"
-#include "Parameters.h" // For MODPARAMS namespace
+#include "SSOperator.hpp"
+#include "Parameters.hpp"
 #include <map>
 #include <string>
 
@@ -23,7 +23,7 @@
 
   SteadyStateOperator::~SteadyStateOperator(){};
 
-  double SteadyStateOperator::eval(std::string chemkey, MODPARAMS::POINTCHEMMAP values){
+  double SteadyStateOperator::eval(std::string chemkey, POINTCHEMMAP values){
     if (ss_bool[chemkey]) { return ss_funcs[chemkey](values); }
     else {return 0;}
   }

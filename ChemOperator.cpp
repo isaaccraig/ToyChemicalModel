@@ -1,8 +1,8 @@
 
 #include <iostream>
-#include "Parameters.h"
-#include "chemderiv.h"
-#include "ChemOperator.h"
+#include "Parameters.hpp"
+#include "chemderiv.hpp"
+#include "ChemOperator.hpp"
 #include <string>
 
     ChemistryOperator::ChemistryOperator(int active) : SSOP (){
@@ -13,15 +13,15 @@
 
     float ChemistryOperator::apply(Concentrations *C, double hour, double delt, double exit_time){
       std::string label;
-      for (int t=exit_time; t < MODPARAMS::time_step * 3600 ; t += delt){
+      for (int t=exit_time; t < PARAMS_time_step * 3600 ; t += delt){
           if (t%50 == 0) {std::cout << "running chem at" << t << "seconds" << std::endl;}
           std::string label;
-          for (int i =0; i < MODPARAMS::N; i++) {
+          for (int i =0; i < N; i++) {
             // combine the static arguments with the chemical arguments for the kinetics function call
             C->set_arglist(i, hour);
-            MODPARAMS::POINTCHEMMAP results = *chem_solver(&(C->args));
+            POINTCHEMMAP results = *chem_solver(&(C->args));
 
-            for (int n=0; n < MODPARAMS::NCHEM; n++){
+            for (int n=0; n < NCHEM; n++){
               label = C->names[n];
               double dCdt = results[label] * delt;
               if ((C->values)[label](i) + dCdt < 0){
@@ -31,7 +31,7 @@
               else {(C->values)[label](i) += dCdt;}
             }
 
-            for (int n=0; n < MODPARAMS::NCHEM; n++){
+            for (int n=0; n < NCHEM; n++){
               // See the SS Params Namespace for these
               label = C->names[n];
               double ss_val = SSOP.eval(label, results);
@@ -43,5 +43,5 @@
             }
           }
       }
-      return MODPARAMS::time_step * 3600;
+      return PARAMS_time_step * 3600;
     }

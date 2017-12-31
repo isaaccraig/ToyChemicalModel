@@ -2,10 +2,10 @@
 #pragma once
 #include <string>
 #include <cmath>
-#include "Parameters.h"
+#include "Parameters.hpp"
 #include <map>
 
-extern MODPARAMS::POINTCHEMMAP* chem_solver(double (*args)[14]);
+extern POINTCHEMMAP* chem_solver(double (*args)[14]);
 
 double dO3_dt(double HOUR, double TEMP, double C_M, double HEIGHT, double conc_O3, double conc_NO2, double conc_NO);
 double dNO2_dt(double HOUR, double TEMP, double C_M, double HEIGHT, double conc_AP, double conc_APN, double conc_O3, double conc_HO, double conc_NO2, double conc_NO);

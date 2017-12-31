@@ -1,9 +1,9 @@
 
-#include "Parameters.h"
-#include "Concentration.h"
+#include "Parameters.hpp"
+#include "Concentration.hpp"
 #include <string>
 
-DepositionOperator::DepositionOperator(MODPARAMS::POINTCHEMMAP *vd, int active){
+DepositionOperator::DepositionOperator(POINTCHEMMAP *vd, int active){
   this->applied = false;
   this->vd = vd;
   this->active = active;
@@ -19,10 +19,10 @@ bool EmisOperator::check() {
 void DepositionOperator::apply(Concentrations *C) {
     std::string label;
     if (active)
-      for (int n=0; n<MODPARAMS::NCHEM; n++)
-          for (int i=0; i<MODPARAMS::N; i++)
+      for (int n=0; n<NCHEM; n++)
+          for (int i=0; i<N; i++)
             label = C->names[n];
-            (C->values)[label](i) += (C->values)[label](i) * vd[label] * (MODPARAMS::time_step * 3600) * 1/(100*MODPARAMS::del_z);
+            (C->values)[label](i) += (C->values)[label](i) * vd[label] * (time_step * 3600) * 1/(100*del_z);
       applied = true;
     check();
   }

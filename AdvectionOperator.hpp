@@ -1,7 +1,7 @@
 
 #pragma once
-#include "Parameters.h"
-#include "Concentration.h"
+#include "Parameters.hpp"
+#include "Concentration.hpp"
 #include <cmath>
 
 class AdvectionOperator {
@@ -10,12 +10,12 @@ class AdvectionOperator {
 
     void apply(Concentrations *C);
     void check();
-    AdvectionOperator(MODPARAMS::BCMAP *bc, int active=1);
+    AdvectionOperator(BCMAP *bc, int active=1);
     ~AdvectionOperator();
 
   private:
     void initialize_diags();
-    MODPARAMS::BCMAP bc;
+    BCMAP bc;
     double leftdiags[7];
     double rightdiags[7];
     double noflux_diagonal_right;

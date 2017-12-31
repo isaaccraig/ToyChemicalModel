@@ -1,9 +1,9 @@
 
 #include <iostream>
-#include "ChemOperator.h"
-#include "Parameters.h"
-#include "Utils.h"
-#include "SSCChemOperator.h"
+#include "ChemOperator.hpp"
+#include "Parameters.hpp"
+#include "Utils.hpp"
+#include "SSCChemOperator.hpp"
 
     SSControledChemOperator::SSControledChemOperator(int active) : ChemOp(){
       this->applied = false; this->active = active;
@@ -22,7 +22,7 @@
         // step size controled call
         double delt = 1;
         int exit_time = ChemOp.apply(C, hour, delt, 0);
-        while (exit_time < MODPARAMS::time_step * 3600 ) {
+        while (exit_time < PARAMS_time_step * 3600 ) {
           delt /= 2;
           std::cout << "REDUCING STEP SIZE TO" << delt << std::endl;
           exit_time = ChemOp.apply(C, hour, delt, exit_time);
