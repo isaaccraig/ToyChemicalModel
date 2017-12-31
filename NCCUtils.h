@@ -2,26 +2,8 @@
 #pragma once
 #include "Parameters.h"
 #include <string>
+#include <map>
+#include <vector>
 
-/*
-
-DESCRIBE !!!
-
-*/
-
-namespace NCC_UTILS{
-
-  namespace READIN {
-
-    MODPARAMS::NVECTOR* NVECTOR(const std::string *filename);
-
-    MODPARAMS::CONCMAT* CONCMAT(const std::string *filename);
-
-    MODPARAMS::POINTCHEMMAP* POINTCHEMMAP(const std::string *filename);
-
-  }
-
-  namespace SPITOUT {
-
-  }
-}
+template <typename T>
+  std::map<std::string, T> NCC_READIN (const std::string *filename, std::vector<const std::string> varnames);

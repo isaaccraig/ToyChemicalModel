@@ -3,39 +3,43 @@
 #include "Parameters.h"
 #include "chemderiv.h"
 #include "ChemOperator.h"
+#include <string>
 
-    ChemistryOperator::ChemistryOperator(SteadyStateOperator *SSOP, int active) {
-      this->applied = false; this->active = active; this->SSOP = *SSOP;
+    ChemistryOperator::ChemistryOperator(int active) : SSOP (){
+      this->applied = false; this->active = active;
     }
 
     ChemistryOperator::~ChemistryOperator(){};
 
     float ChemistryOperator::apply(Concentrations *C, double hour, double delt, double exit_time){
+      std::string label;
       for (int t=exit_time; t < MODPARAMS::time_step * 3600 ; t += delt){
           if (t%50 == 0) {std::cout << "running chem at" << t << "seconds" << std::endl;}
+          std::string label;
           for (int i =0; i < MODPARAMS::N; i++) {
-            // combine the static arguments with the chemical arguments for the cythonized kinetics function call
-            double arglist[MODPARAMS::NCHEM + 5] = _set_arglist(i, hour);
-            MODPARAMS::POINTCHEMMAP results[MODPARAMS::NCHEM] = CHEMDERIV(arglist);
+            // combine the static arguments with the chemical arguments for the kinetics function call
+            C->set_arglist(i, hour);
+            MODPARAMS::POINTCHEMMAP results = *chem_solver(&(C->args));
 
             for (int n=0; n < MODPARAMS::NCHEM; n++){
-              double dCdt = results[n] * delt;
-              if ((C->values)(n,i) + dCdt < 0){
+              label = C->names[n];
+              double dCdt = results[label] * delt;
+              if ((C->values)[label](i) + dCdt < 0){
                 std::cout << "WARNING NEGATIVE: " << n << std::endl;
                 return t;
               }
-              else {(C->values)(n,i) += dCdt;}
+              else {(C->values)[label](i) += dCdt;}
             }
 
             for (int n=0; n < MODPARAMS::NCHEM; n++){
               // See the SS Params Namespace for these
-              double ss_val = SSOP->eval(n, results);
-              if (ss_val < 0)
+              label = C->names[n];
+              double ss_val = SSOP.eval(label, results);
+              if (ss_val < 0) {
                 std::cout << "WARNING NEGATIVE: " << n << std::endl;
                 return t;
-              else {
-                (C->values)(n,i) = ss_val;
               }
+              else { (C->values)[label](i) = ss_val;}
             }
           }
       }

@@ -1,11 +1,11 @@
 
+#pragma once
 #include <string>
 #include <cmath>
+#include "Parameters.h"
 #include <map>
 
-typedef std::map<std::string,double>   CHEMMAP;
-
-CHEMMAP* chem_solver(double dt, double HOUR, double TEMP, double C_M, double HEIGHT, double conc_O3, double conc_NO2, double conc_NO, double conc_AP, double conc_APN, double conc_HNO3, double conc_HO, double conc_HO2, double conc_PROD);
+extern MODPARAMS::POINTCHEMMAP* chem_solver(double (*args)[14]);
 
 double dO3_dt(double HOUR, double TEMP, double C_M, double HEIGHT, double conc_O3, double conc_NO2, double conc_NO);
 double dNO2_dt(double HOUR, double TEMP, double C_M, double HEIGHT, double conc_AP, double conc_APN, double conc_O3, double conc_HO, double conc_NO2, double conc_NO);

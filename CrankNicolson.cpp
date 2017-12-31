@@ -3,12 +3,12 @@
 #include "CrankNicolson.h"
 #include "Eigen/Dense"
 
-inline void CrankNicolson ( MODPARAMS::NVECTOR *flat_C,
+void CrankNicolson ( MODPARAMS::NVECTOR *flat_C,
                             double leftdiags[],
                             double rightdiags[],
                             double noflux_diagonal_right,
                             double noflux_diagonal_left,
-                            double BC[6] ) {
+                            MODPARAMS::BCVEC BC ) {
 
   MODPARAMS::NMATRIX R;
   MODPARAMS::NMATRIX L;
@@ -32,7 +32,7 @@ inline void CrankNicolson ( MODPARAMS::NVECTOR *flat_C,
               L(i,j) = leftdiags[5];
             }
             else {
-              boundary(i) += (rightdiags[5] - leftdiags[5]) * BC[5];
+              boundary(i) += (rightdiags[5] - leftdiags[5]) * BC(5);
             }
         }
         if (i - 1 == j) {
@@ -47,7 +47,7 @@ inline void CrankNicolson ( MODPARAMS::NVECTOR *flat_C,
               L(i,j) = leftdiags[3];
             }
             else {
-              boundary(i) += (rightdiags[3] - leftdiags[3]) * BC[3];
+              boundary(i) += (rightdiags[3] - leftdiags[3]) * BC(3);
             }
         }
         if (i - (MODPARAMS::NZ - 1) == j) {
@@ -56,7 +56,7 @@ inline void CrankNicolson ( MODPARAMS::NVECTOR *flat_C,
               L(i,j) = leftdiags[4];
             }
             else {
-              boundary(i) += (rightdiags[4] - leftdiags[4]) * BC[2];
+              boundary(i) += (rightdiags[4] - leftdiags[4]) * BC(2);
             }
         }
         if (i + (MODPARAMS::NZ*MODPARAMS::NY - 1) == j) {
@@ -65,7 +65,7 @@ inline void CrankNicolson ( MODPARAMS::NVECTOR *flat_C,
               L(i,j) = leftdiags[1];
             }
             else {
-              boundary(i) += (rightdiags[1] - leftdiags[1]) * BC[1];
+              boundary(i) += (rightdiags[1] - leftdiags[1]) * BC(1);
             }
         }
         if (i - (MODPARAMS::NZ*MODPARAMS::NY - 1) == j) {
@@ -74,7 +74,7 @@ inline void CrankNicolson ( MODPARAMS::NVECTOR *flat_C,
               L(i,j) = leftdiags[2];
             }
             else {
-              boundary(i) += (rightdiags[2] - leftdiags[2]) * BC[0];
+              boundary(i) += (rightdiags[2] - leftdiags[2]) * BC(0);
             }
         }
       }

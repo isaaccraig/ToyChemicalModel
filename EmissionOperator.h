@@ -7,10 +7,10 @@ class EmissionOperator {
   public:
     void apply(Concentrations *C);
     void check();
-    EmissionOperator(MODPARAMS::CONCMAT *E, int active = 1);
+    EmissionOperator(MODPARAMS::FULLCHEMMAP *E, int active = 1);
     ~EmissionOperator();
   private:
-    MODPARAMS::CONCMAT E;
+    MODPARAMS::FULLCHEMMAP E;
     bool applied;
     bool active;
 };

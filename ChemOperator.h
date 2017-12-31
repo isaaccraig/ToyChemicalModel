@@ -3,11 +3,11 @@
 #include "SSOperator.h"
 #include "Concentration.h"
 
-class ChemistryOperator{
+class ChemistryOperator {
 
   public:
     float apply(Concentrations *C, double hour, double delt, double exit_time);
-    ChemistryOperator(SteadyStateOperator *SSOP, int active = 1);
+    ChemistryOperator(int active = 1);
     ~ChemistryOperator();
 
   private:

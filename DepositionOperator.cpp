@@ -25,7 +25,7 @@ void DepositionOperator::apply(Concentrations *C) {
       for (int n = 0; n<MODPARAMS::NCHEM; n++){
         for (int i = 0; i<MODPARAMS::N; i++){
           label = (C->names)[n];
-          C->values(n,i) += C->values(n,i) * vd[label] * \
+          C->values[label](i) += C->values[label](i) * vd[label] * \
           (MODPARAMS::time_step * 3600) * 1/(100*MODPARAMS::del_z);
         }
       }  

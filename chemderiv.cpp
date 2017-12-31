@@ -4,8 +4,25 @@
 #include <iostream>
 #include "chemderiv.h"
 
-CHEMMAP* chem_solver(double dt, double HOUR, double TEMP, double C_M, double HEIGHT, double conc_O3, double conc_NO2, double conc_NO, double conc_AP, double conc_APN, double conc_HNO3, double conc_HO, double conc_HO2, double conc_PROD) {
-    CHEMMAP cmap;
+extern MODPARAMS::POINTCHEMMAP* chem_solver(double (*args)[14]) {
+
+    double dt = *args[0];
+    double HOUR= *args[1];
+    double TEMP= *args[2];
+    double C_M= *args[3];
+    double HEIGHT= *args[4];
+    double conc_O3= *args[5];
+    double conc_NO2= *args[6];
+    double conc_NO= *args[7];
+    double conc_AP= *args[8];
+    double conc_APN= *args[9];
+    double conc_HNO3= *args[10];
+    double conc_HO= *args[11];
+    double conc_HO2= *args[12];
+    double conc_PROD= *args[13];
+
+    static MODPARAMS::POINTCHEMMAP cmap;
+
     cmap["O3"] = dO3_dt( HOUR,  TEMP,  C_M,  HEIGHT,  conc_O3,  conc_NO2,  conc_NO);
     cmap["NO2"] = dNO2_dt( HOUR,  TEMP,  C_M,  HEIGHT,  conc_AP,  conc_APN,  conc_O3,  conc_HO,  conc_NO2,  conc_NO);
     cmap["NO"] = dNO_dt( HOUR,  TEMP,  C_M,  HEIGHT,  conc_O3,  conc_NO2,  conc_NO);
@@ -15,6 +32,7 @@ CHEMMAP* chem_solver(double dt, double HOUR, double TEMP, double C_M, double HEI
     cmap["HO"] = dHO_dt( TEMP,  C_M);
     cmap["HO2"] = dHO2_dt( TEMP,  C_M);
     cmap["PROD"] = dPROD_dt( TEMP,  C_M);
+
     return &cmap;
 }
 

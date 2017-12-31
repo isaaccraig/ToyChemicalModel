@@ -1,4 +1,5 @@
 
+#pragma once
 #include <iostream>
 #include <string>
 
@@ -6,6 +7,9 @@ namespace Utils{
   /* base Error to give message and halt */
 inline void Error( const std::string *msg ) {
   std::cout << "Error :" << msg << std::endl;
+  exit(-1);
+  }
+inline void Error( void ) {
   exit(-1);
   }
   /* Warning to give message and continue */

@@ -9,6 +9,8 @@
 #include "Parameters.h"
 
 using namespace std;
+using namespace MODPARAMS;
+using namespace INPUTPARAMS;
 
 int main(){
 
@@ -22,17 +24,17 @@ int main(){
 
   */
 
-  MODPARAMS::CONCMAT E;          // Emissions
-  E = *NCC_UTILS::READIN::CONCMAT(&(INPUTPARAMS::Efile));
+/*
+  FULLCHEMMAP E = NCC_READIN<NVECTOR>(&(Efile), Evars);
+  POINTCHEMMAP VD = NCC_READIN<double>(&(VDfile), VDvars);
+  BCMAP BC = NCC_READIN<BCVEC>(&(BCfile), BCvars);
+  FULLCHEMMAP INITIAL;    // Initial Concentrations
+  */
 
-  MODPARAMS::POINTCHEMMAP VD;         // Deposition Velocity
-  VD = *NCC_UTILS::READIN::POINTCHEMMAP(&(INPUTPARAMS::VDfile));
-
-  MODPARAMS::NCHEMVECTOR BC;
-  for (int n=0; n<MODPARAMS::NCHEM; n++)
-    BC(n) = 0;
-
-  MODPARAMS::CONCMAT INITIAL;    // Initial Concentrations
+  FULLCHEMMAP E;
+  POINTCHEMMAP VD;
+  BCMAP BC;
+  FULLCHEMMAP INITIAL;
 
   /*
 
@@ -66,28 +68,6 @@ int main(){
 
   /*
 
-  Instantiation of a Steady State Operator Object, defined within
-  "SteadyStateOperator.h", which takes in ()
-  and is only called internally through the Chemistry Operator object,
-  which requires it as an arument to its contructor
-
-  */
-
-  SteadyStateOperator SSOp;             // used within chem
-
-  /*
-
-  Instantiation of a Chemistry Operator Object, defined within
-  "ChemistryOperator.h", which takes a Steady State Operator Object
-  and is only called internally through the SSC Chemistry Operator object,
-  which requires it as an arument to its contructor
-
-  */
-
-  ChemistryOperator ChemOp(&SSOp);        // used within SSC chem
-
-  /*
-
   Instantiation of an SSC Chemistry Operator Object, defined within
   "SSCChemistryOperator.h", which takes a Chemistry Operator Object
   and wraps it with Step Size Control Functionality to prevent
@@ -96,7 +76,7 @@ int main(){
 
   */
 
-  SSControledChemOperator SSCChemOp(&ChemOp);
+  SSControledChemOperator SSCChemOp;
 
   /*
 
@@ -120,8 +100,7 @@ int main(){
 
   */
 
-
-  for(int t=(MODPARAMS::initial_time - MODPARAMS::spinup_duration); t<MODPARAMS::initial_time ; t += MODPARAMS::time_step) {
+  for(int t=(initial_time - spinup_duration); t<initial_time ; t += time_step) {
       if (debuglevel > 0) {cout << "spinup at time " << t << endl;}
 
       if (debuglevel > 2) {cout << "running spinup emissions at time " << t << endl;}
@@ -136,7 +115,8 @@ int main(){
       if (debuglevel > 2) {cout << "running spinup chemistry at time " << t << endl;}
       SSCChemOp.apply(&C, t);
   }
-  for(int t=MODPARAMS::initial_time; t < MODPARAMS::final_time ; t += MODPARAMS::time_step) {
+
+  for(int t=initial_time; t < final_time ; t += time_step) {
       if (debuglevel > 0) {cout << "running at time " << t << endl;}
 
       if (debuglevel > 2) {cout << "running emissions at time " << t << endl;}

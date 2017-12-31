@@ -8,12 +8,15 @@ class SSControledChemOperator{
   public:
 
     void apply(Concentrations *C, double hour);
-    SSControledChemOperator(ChemistryOperator *O, int active=1);
+    void check();
+    SSControledChemOperator(int active=1);
     ~SSControledChemOperator();
 
   private:
 
+    bool applied;
+    bool active;
     double exit_time;
-    ChemistryOperator O;
+    ChemistryOperator ChemOp;
 
   };

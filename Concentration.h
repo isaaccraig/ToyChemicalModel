@@ -8,7 +8,9 @@ class Concentrations{
 public:
   std::string names[MODPARAMS::NCHEM];
   std::string argnames[MODPARAMS::NCHEM - MODPARAMS::NSTAT];
-  MODPARAMS::CONCMAT values;
-  Concentrations(MODPARAMS::CONCMAT initial);
+  double args[MODPARAMS::NCHEM - MODPARAMS::NSTAT + 5];
+  MODPARAMS::FULLCHEMMAP values;
+  void set_arglist(int i, double hour);
+  Concentrations(MODPARAMS::FULLCHEMMAP initial);
   ~Concentrations();
 };

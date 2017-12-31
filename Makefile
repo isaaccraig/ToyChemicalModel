@@ -1,15 +1,17 @@
 
-OBJS = main.o Concentration.o CrankNicolson.o chemderiv.o EmissionOperator.o DepositionOperator.o \
-  SSOperator.o AdvectionOperator.o ChemOperator.o SSCChemOperator.o NCCUtils.o
+OBJS = chemderiv.o NCCUtils.o Concentration.o CrankNicolson.o EmissionOperator.o DepositionOperator.o \
+  SSOperator.o ChemOperator.o AdvectionOperator.o SSCChemOperator.o main.o
 
-
-CC = g++
+CC = g++ -std=c++11
 DEBUG = -g
 CFLAGS = -Wall -c $(DEBUG)
 LFLAGS = -Wall $(DEBUG)
 
 prog : $(OBJS)
-	$(CC) $(LFLAGS) $(OBJS) -o prog
+	$(CC) $(LFLAGS) $(OBJS) -o prog -v
+
+chemderiv.o : chemderiv.h Parameters.h
+	$(CC) $(CFLAGS) chemderiv.cpp
 
 main.o : main.cpp NCCUtils.h AdvectionOperator.h DepositionOperator.h EmissionOperator.h SSOperator.h SSCChemOperator.h Parameters.h
 	$(CC) $(CFLAGS) main.cpp
@@ -30,15 +32,12 @@ ChemOperator.o : ChemOperator.h ChemOperator.cpp Parameters.h SSOperator.h chemd
 	$(CC) $(CFLAGS) ChemOperator.cpp
 
 SSOperator.o : SSOperator.h SSOperator.cpp Parameters.h
-	$(CC) $(CFLAGS) ChemOperator.cpp
+	$(CC) $(CFLAGS) SSOperator.cpp
 
 CrankNicolson.o : CrankNicolson.h CrankNicolson.cpp Parameters.h
 	$(CC) $(CFLAGS) CrankNicolson.cpp
 
-chemderiv.o : chemderiv.h
-	$(CC) $(CFLAGS) chemderiv.cpp
-
-NCCUtils.o : NCCUtils.h NCCUtils.cpp Parameters.h
+NCCUtils.o : NCCUtils.h NCCUtils.cpp Utils.h Parameters.h
 	$(CC) $(CFLAGS) NCCUtils.cpp
 
 Concentration.o : Concentration.h Concentration.cpp Parameters.h

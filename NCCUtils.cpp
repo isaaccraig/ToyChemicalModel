@@ -1,52 +1,33 @@
 
-#include "Parameters.h"
+#include "NCCUtils.h"
+#include "Utils.h"
 #include <iostream>
 #include <netcdf>
-#include <string>
+#include <map>
 using namespace std;
 using namespace netCDF;
 using namespace netCDF::exceptions;
 
-
-MODPARAMS::NVECTOR* NCC_UTILS::READIN::NVECTOR(const std::string *filename) {
-
+template <typename T>
+  map<string, T> NCC_READIN (const string *filename, vector<const string> varnames) {
   try {
+    map<string, T> result;
+    T result_piece;
+    NcFile dataFile(INPUTPARAMS::InputLocation + *filename, NcFile::read);
 
-  double output[MODPARAMS::NX][MODPARAMS::NY][MODPARAMS::NZ];
-  const char path = INPUTPARAMS::InputLocation + "/" + (*filename);
-
-  // Open for reading
-  NcFile dataFile(path, NcFile::read);
-
-  // Throw Error If Not Found
-  if (not dataFile.is_valid())
-    const char msg = "Could Not Open" + (*filename) + "For Reading";
-    Utils::Error(&msg);
-
-  // Retrieve the variable varname
-  // TO DO : CHANGE SO THAT READS IN ALL
-
-  NcVar data=dataFile.getVar(*varname);
-
-  // Throw Error If Not Found
-  if(data.isNull())
-    msg = "Could Not Find" + (*varname) + "in" + (*filename);
-    Utils::Error(&msg);
-
-  data.getVar(output);
-  // The netCDF file is automatically closed by the NcFile destructor
-
-  return MODUTILS::MAKE_NVEC(output);
-
+    for (int n=0; n<varnames.size(); n++) {
+      NcVar data=dataFile.getVar(varnames[n]);
+      if(data.isNull())
+        cout << "ERROR : Could Not Find" << (varnames[n]) << "in" << (*filename);
+        Utils::Error();
+        data.getVar(result_piece);
+        result[varnames[n]] = result_piece;
+      }
+    return (result);
   } catch(NcException& e)
     {
       e.what();
-      cout<<"FAILURE READING NETCDF"<<endl;
+      cout << "FAILURE READING NETCDF : " << *filename << endl;
       exit(-1);
     }
-};
-
-int NCC_UTILS::SPITOUT::Concentrations(Concentrations* C) {
-
-
-};
+}
