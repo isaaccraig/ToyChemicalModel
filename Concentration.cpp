@@ -6,6 +6,7 @@
 
 Concentrations::Concentrations(FULLCHEMMAP initial){
   this->values = initial;
+  this->units = "molecules/cm^3";
 
   for (int n=0; n < NCHEM; n++)
     (this->names)[n] = PARAMS_mod_names[n];

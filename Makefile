@@ -8,7 +8,7 @@ CFLAGS = -Wall -c $(DEBUG)
 LFLAGS = -Wall $(DEBUG)
 
 prog : $(OBJS)
-	$(CC) $(LFLAGS) $(OBJS) -o prog
+	$(CC) $(LFLAGS) $(OBJS) -o CTTM
 
 chemderiv.o : chemderiv.hpp chemderiv.cpp Parameters.hpp
 	$(CC) $(CFLAGS) chemderiv.cpp
@@ -16,7 +16,7 @@ chemderiv.o : chemderiv.hpp chemderiv.cpp Parameters.hpp
 Parameters.o : Parameters.hpp Parameters.cpp
 	$(CC) $(CFLAGS) Parameters.cpp
 
-main.o : main.cpp NCCUtils.hpp AdvectionOperator.hpp DepositionOperator.hpp EmissionOperator.hpp SSOperator.hpp SSCChemOperator.hpp Parameters.hpp
+main.o : main.cpp NCCUtils.hpp Utils.hpp AdvectionOperator.hpp DepositionOperator.hpp EmissionOperator.hpp SSOperator.hpp SSCChemOperator.hpp Parameters.hpp
 	$(CC) $(CFLAGS) main.cpp
 
 AdvectionOperator.o : AdvectionOperator.hpp AdvectionOperator.cpp Parameters.hpp Utils.hpp Concentration.hpp CrankNicolson.hpp

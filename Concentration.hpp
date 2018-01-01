@@ -7,6 +7,7 @@ class Concentrations{
 
 public:
   std::string names[NCHEM];
+  std::string units;
   std::string argnames[NCHEM - NSTAT];
   double args[NCHEM - NSTAT + 5];
   FULLCHEMMAP values;

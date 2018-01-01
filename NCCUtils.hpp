@@ -1,6 +1,7 @@
 
 #pragma once
 #include "Parameters.hpp"
+#include "Concentration.hpp"
 #include <string>
 #include <map>
 #include <vector>
