@@ -2,7 +2,7 @@
 t = t + 1
 
 set terminal jpeg
-outfile = sprintf('animation/heatmap%03.0f.png',50*t)
+outfile = sprintf('animation/step%03.0f.png',t)
 set output outfile
 set dgrid3d 30,30
 dataFile=sprintf('data/dataset_%d.txt',t)

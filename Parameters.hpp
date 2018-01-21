@@ -18,7 +18,7 @@
 #define PARAMS_spinup_duration 1 // Hours To Spin Up
 #define PARAMS_time_step 0.5 // Operator split time step used in all cycling except chem (Hours)
 #define PARAMS_final_time 14 // Final Local Time in Hours
-#define NT int ((PARAMS_final_time - PARAMS_initial_time)/PARAMS_time_step)
+#define NT ((PARAMS_final_time - PARAMS_initial_time)/PARAMS_time_step)
 
 inline int xindex (int i) {return i / (NY * NZ);}
 inline int yindex (int i) {return (i%(NY * NZ))/NZ;}

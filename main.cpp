@@ -23,16 +23,11 @@ int main(){
   NcVar chemVars[NCHEM];
   std::map<std::string,double[NX][NY][NZ][NT]> conc_out;
 
-/*
-  FULLCHEMMAP E = NCC_READIN<NVECTOR>(&(Efile), Evars);
-  POINTCHEMMAP VD = NCC_READIN<double>(&(VDfile), VDvars);
-  BCMAP BC = NCC_READIN<BCVEC>(&(BCfile), BCvars);
-  */
 
-  FULLCHEMMAP E;
-  POINTCHEMMAP VD;
-  BCMAP BC;
-  FULLCHEMMAP INITIAL;
+  FULLCHEMMAP E = NCC_READIN<NVECTOR>(&(PARAMS_Efile), PARAMS_Evars);
+  FULLCHEMMAP INITIAL = NCC_READIN<NVECTOR>(&(PARAMS_Initfile), PARAMS_Initvars);
+  POINTCHEMMAP VD = NCC_READIN<double>(&(PARAMS_VDfile), PARAMS_VDvars);
+  BCMAP BC = NCC_READIN<BCVEC>(&(PARAMS_BCfile), PARAMS_BCvars);
 
   AdvectionOperator AdvDifOp(&BC);
   EmissionOperator EmOp(&E);
@@ -110,11 +105,11 @@ int main(){
 
       NcFile dataFile(PARAMS_ExitLocation + PARAMS_Exitfile, NcFile::replace);
 
-      dataFile.add_att("spinup_duration",PARAMS_spinup_duration);
-      dataFile.add_att("Initfile",PARAMS_Initfile);
-      dataFile.add_att("Efile",PARAMS_Efile);
-      dataFile.add_att("BCfile",PARAMS_BCfile);
-      dataFile.add_att("VDfile",PARAMS_VDfile);
+      // dataFile.add_att("spinup_duration",PARAMS_spinup_duration);
+      // dataFile.add_att("Initfile",PARAMS_Initfile);
+      // dataFile.add_att("Efile",PARAMS_Efile);
+      // dataFile.add_att("BCfile",PARAMS_BCfile);
+      // dataFile.add_att("VDfile",PARAMS_VDfile);
 
       NcDim xDim = dataFile.addDim("X dimension", NX);
       NcDim yDim = dataFile.addDim("Y dimension", NY);
