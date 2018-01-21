@@ -5,17 +5,18 @@
 #include "ChemOperator.hpp"
 #include <string>
 
+using namespace std;
+
     ChemistryOperator::ChemistryOperator(int active) : SSOP (){
       this->applied = false; this->active = active;
     }
 
     ChemistryOperator::~ChemistryOperator(){};
 
-    float ChemistryOperator::apply(Concentrations *C, double hour, double delt, double exit_time){
-      std::string label;
-      for (int t=exit_time; t < PARAMS_time_step * 3600 ; t += delt){
-          if (t%50 == 0) {std::cout << "running chem at" << t << "seconds" << std::endl;}
-          std::string label;
+    float ChemistryOperator::apply(Grid *C, double hour, double delt, double exit_time){
+      string label;
+      for (double t=exit_time; t < PARAMS_time_step * 3600; t += delt){
+          string label;
           for (int i =0; i < N; i++) {
             // combine the static arguments with the chemical arguments for the kinetics function call
             C->set_arglist(i, hour);
@@ -25,7 +26,7 @@
               label = C->names[n];
               double dCdt = results[label] * delt;
               if ((C->values)[label](i) + dCdt < 0){
-                std::cout << "WARNING NEGATIVE: " << n << std::endl;
+                cout << "WARNING NEGATIVE: " << n << endl;
                 return t;
               }
               else {(C->values)[label](i) += dCdt;}
@@ -36,7 +37,7 @@
               label = C->names[n];
               double ss_val = SSOP.eval(label, results);
               if (ss_val < 0) {
-                std::cout << "WARNING NEGATIVE: " << n << std::endl;
+                cout << "WARNING NEGATIVE: " << n << endl;
                 return t;
               }
               else { (C->values)[label](i) = ss_val;}

@@ -1,7 +1,7 @@
 
 #include <iostream>
 #include "Parameters.hpp"
-#include "Concentration.hpp"
+#include "Grid.hpp"
 #include "DepositionOperator.hpp"
 #include "Utils.hpp"
 #include <string>
@@ -19,7 +19,7 @@ void DepositionOperator::check() {
     Utils::Error("Unintended Deposition Application");
 }
 
-void DepositionOperator::apply(Concentrations *C) {
+void DepositionOperator::apply(Grid *C) {
     std::string label;
     if (active)
       for (int n = 0; n<NCHEM; n++){

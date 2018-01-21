@@ -10,7 +10,7 @@
 // a CHEMMAP type (see Paramteters.hpp) for each chemical string key
 
 typedef double ss_f(POINTCHEMMAP values);
-inline double ssHO2(POINTCHEMMAP values) {return values["RO2"];};
+inline double ssHO2(POINTCHEMMAP values) {return values["AP"];};
 inline double ssHO(POINTCHEMMAP values) {return 1;};
 inline double not_ss(POINTCHEMMAP values) {return 0;}
 

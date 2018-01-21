@@ -7,7 +7,7 @@ class SSControledChemOperator{
 
   public:
 
-    void apply(Concentrations *C, double hour);
+    void apply(Grid *C, double hour);
     void check();
     SSControledChemOperator(int active=1);
     ~SSControledChemOperator();

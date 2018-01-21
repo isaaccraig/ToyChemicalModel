@@ -1,12 +1,12 @@
 
 #pragma once
 #include "SSOperator.hpp"
-#include "Concentration.hpp"
+#include "Grid.hpp"
 
 class ChemistryOperator {
 
   public:
-    float apply(Concentrations *C, double hour, double delt, double exit_time);
+    float apply(Grid *C, double hour, double delt, double exit_time);
     ChemistryOperator(int active = 1);
     ~ChemistryOperator();
 

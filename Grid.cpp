@@ -1,11 +1,11 @@
 
 #include <iostream>
 #include "Parameters.hpp"
-#include "Concentration.hpp"
+#include "Grid.hpp"
 #include <string>
 
-Concentrations::Concentrations(FULLCHEMMAP initial){
-  this->values = initial;
+Grid::Grid(FULLCHEMMAP *initial){
+  this->values = *initial;
   this->units = "molecules/cm^3";
 
   for (int n=0; n < NCHEM; n++)
@@ -15,7 +15,7 @@ Concentrations::Concentrations(FULLCHEMMAP initial){
     (this->argnames)[n] = PARAMS_argmod_names[n];
 };
 
-void Concentrations::set_arglist(int i, double hour){
+void Grid::set_arglist(int i, double hour){
   std::string label;
   double value;
 
@@ -32,4 +32,4 @@ void Concentrations::set_arglist(int i, double hour){
   }
 };
 
-Concentrations::~Concentrations(){};
+Grid::~Grid(){};

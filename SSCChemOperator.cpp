@@ -16,7 +16,7 @@
         Utils::Error("Unintended SSC Chemsitry Application");
     }
 
-    void SSControledChemOperator::apply(Concentrations *C, double hour) {
+    void SSControledChemOperator::apply(Grid *C, double hour) {
       if (active)
         applied = true;
         // step size controled call

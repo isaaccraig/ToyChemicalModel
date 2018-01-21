@@ -70,7 +70,7 @@ int main(){
     for (int x=0; x<NX; x++) {
       for (int y=0; y<NY; y++) {
         for (int z=0; z<NZ; z++) {
-          M[t][x][y][z] = rand() % 10 + 1; // random number
+          M[t][x][y][z] = rand() % 100 + 1; // random number
         }
       }
     }

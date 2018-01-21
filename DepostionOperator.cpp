@@ -1,6 +1,6 @@
 
 #include "Parameters.hpp"
-#include "Concentration.hpp"
+#include "Grid.hpp"
 #include <string>
 
 DepositionOperator::DepositionOperator(POINTCHEMMAP *vd, int active){
@@ -16,7 +16,7 @@ bool EmisOperator::check() {
     Utils::Error("Unintended Deposition Application");
 }
 
-void DepositionOperator::apply(Concentrations *C) {
+void DepositionOperator::apply(Grid *C) {
     std::string label;
     if (active)
       for (int n=0; n<NCHEM; n++)

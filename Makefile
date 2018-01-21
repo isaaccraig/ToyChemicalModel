@@ -1,5 +1,5 @@
 
-OBJS = chemderiv.o NCCUtils.o Concentration.o CrankNicolson.o EmissionOperator.o Parameters.o DepositionOperator.o \
+OBJS = chemderiv.o Grid.o CrankNicolson.o EmissionOperator.o Parameters.o DepositionOperator.o \
   SSOperator.o ChemOperator.o AdvectionOperator.o SSCChemOperator.o main.o
 
 CC = g++ -std=c++11
@@ -16,16 +16,16 @@ chemderiv.o : chemderiv.hpp chemderiv.cpp Parameters.hpp
 Parameters.o : Parameters.hpp Parameters.cpp
 	$(CC) $(CFLAGS) Parameters.cpp
 
-main.o : main.cpp NCCUtils.hpp Utils.hpp AdvectionOperator.hpp DepositionOperator.hpp EmissionOperator.hpp SSOperator.hpp SSCChemOperator.hpp Parameters.hpp
+main.o : main.cpp Utils.hpp AdvectionOperator.hpp DepositionOperator.hpp EmissionOperator.hpp SSOperator.hpp SSCChemOperator.hpp Parameters.hpp
 	$(CC) $(CFLAGS) main.cpp
 
-AdvectionOperator.o : AdvectionOperator.hpp AdvectionOperator.cpp Parameters.hpp Utils.hpp Concentration.hpp CrankNicolson.hpp
+AdvectionOperator.o : AdvectionOperator.hpp AdvectionOperator.cpp Parameters.hpp Utils.hpp Grid.hpp CrankNicolson.hpp
 	$(CC) $(CFLAGS) AdvectionOperator.cpp
 
-DepositionOperator.o : DepositionOperator.hpp DepositionOperator.cpp Utils.hpp Parameters.hpp Concentration.hpp
+DepositionOperator.o : DepositionOperator.hpp DepositionOperator.cpp Utils.hpp Parameters.hpp Grid.hpp
 	$(CC) $(CFLAGS) DepositionOperator.cpp
 
-EmissionOperator.o : EmissionOperator.hpp EmissionOperator.cpp Utils.hpp Parameters.hpp Concentration.hpp
+EmissionOperator.o : EmissionOperator.hpp EmissionOperator.cpp Utils.hpp Parameters.hpp Grid.hpp
 	$(CC) $(CFLAGS) EmissionOperator.cpp
 
 SSCChemOperator.o : SSCChemOperator.hpp SSCChemOperator.cpp Utils.hpp Parameters.hpp ChemOperator.hpp
@@ -40,11 +40,8 @@ SSOperator.o : SSOperator.hpp SSOperator.cpp Parameters.hpp
 CrankNicolson.o : CrankNicolson.hpp CrankNicolson.cpp Parameters.hpp
 	$(CC) $(CFLAGS) CrankNicolson.cpp
 
-NCCUtils.o : NCCUtils.hpp NCCUtils.cpp Utils.hpp Parameters.hpp
-	$(CC) $(CFLAGS) NCCUtils.cpp
-
-Concentration.o : Concentration.hpp Concentration.cpp Parameters.hpp
-	$(CC) $(CFLAGS) Concentration.cpp
+Grid.o : Grid.hpp Grid.cpp Parameters.hpp
+	$(CC) $(CFLAGS) Grid.cpp
 
 clean:
 	rm $(OBJS)

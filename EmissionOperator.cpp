@@ -1,5 +1,5 @@
 
-#include "Concentration.hpp"
+#include "Grid.hpp"
 #include "Utils.hpp"
 #include "EmissionOperator.hpp"
 #include "Parameters.hpp"
@@ -18,7 +18,7 @@ void EmissionOperator::check() {
     Utils::Error("Unintended Emission Application");
 }
 
-void EmissionOperator::apply(Concentrations *C) {
+void EmissionOperator::apply(Grid *C) {
     std::string label;
     if (active)
       for (int n=0; n<NCHEM; n++)

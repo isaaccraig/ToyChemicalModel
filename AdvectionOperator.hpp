@@ -1,14 +1,14 @@
 
 #pragma once
 #include "Parameters.hpp"
-#include "Concentration.hpp"
+#include "Grid.hpp"
 #include <cmath>
 
 class AdvectionOperator {
 
   public:
 
-    void apply(Concentrations *C);
+    void apply(Grid *C);
     void check();
     AdvectionOperator(BCMAP *bc, int active=1);
     ~AdvectionOperator();

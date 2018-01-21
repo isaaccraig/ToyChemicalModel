@@ -1,11 +1,11 @@
 
 #pragma once
 #include "Parameters.hpp"
-#include "Concentration.hpp" // For Concentration Class
+#include "Grid.hpp" // For Grid Class
 
 class EmissionOperator {
   public:
-    void apply(Concentrations *C);
+    void apply(Grid *C);
     void check();
     EmissionOperator(FULLCHEMMAP *E, int active = 1);
     ~EmissionOperator();

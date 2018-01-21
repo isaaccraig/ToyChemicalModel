@@ -10,7 +10,7 @@
 #define NX 5
 #define NY 5
 #define NZ 1
-#define N 25
+#define N NX*NY*NZ
 #define NCHEM 12
 #define NSTAT 3
 
@@ -18,11 +18,13 @@
 #define PARAMS_spinup_duration 1 // Hours To Spin Up
 #define PARAMS_time_step 0.5 // Operator split time step used in all cycling except chem (Hours)
 #define PARAMS_final_time 14 // Final Local Time in Hours
-#define NT ((PARAMS_final_time - PARAMS_initial_time)/PARAMS_time_step)
+#define NT int((PARAMS_final_time - PARAMS_initial_time)/PARAMS_time_step)
 
 inline int xindex (int i) {return i / (NY * NZ);}
 inline int yindex (int i) {return (i%(NY * NZ))/NZ;}
 inline int zindex (int i) {return (i%(NY * NZ))%NZ;}
+inline int linearindex (int i, int j, int k) {return (k + j * NZ + i * NZ * NY);}
+
 inline double TEMP(float t){
      // Pearson Type III Model for Diurnal Temperature Cycle
      int Tmin = 15, Trange = 15, a = 9;
@@ -54,8 +56,6 @@ extern const double PARAMS_U, PARAMS_V, PARAMS_W; // Wind Speeds
 extern const std::string PARAMS_spatialunits ;
 extern const std::string PARAMS_temporalunits ;
 extern const std::string PARAMS_temperatureunits ;
-extern const std::string PARAMS_InputLocation ;
-extern const std::string PARAMS_ExitLocation ;
 extern const std::string PARAMS_Efile ;
 extern const std::string PARAMS_Exitfile ;
 extern const std::string PARAMS_BCfile ;

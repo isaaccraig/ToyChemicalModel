@@ -1,11 +1,11 @@
 
 #pragma once
-#include "Concentration.hpp"
+#include "Grid.hpp"
 
 class DepositionOperator {
 
   public:
-    void apply(Concentrations *C);
+    void apply(Grid *C);
     void check();
     DepositionOperator(POINTCHEMMAP *vd, int active=1);
     ~DepositionOperator();

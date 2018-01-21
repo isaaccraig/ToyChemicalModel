@@ -3,7 +3,7 @@
 #include "Parameters.hpp"
 #include <string>
 
-class Concentrations{
+class Grid{
 
 public:
   std::string names[NCHEM];
@@ -12,6 +12,6 @@ public:
   double args[NCHEM - NSTAT + 5];
   FULLCHEMMAP values;
   void set_arglist(int i, double hour);
-  Concentrations(FULLCHEMMAP initial);
-  ~Concentrations();
+  Grid(FULLCHEMMAP *initial);
+  ~Grid();
 };

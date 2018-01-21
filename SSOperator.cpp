@@ -15,7 +15,6 @@
      ss_bool["HO"] =   true;      ss_funcs["HO"] =   ssHO;
      ss_bool["HO2"] =  true;      ss_funcs["HO2"] =  ssHO2;
      ss_bool["PROD"] = false;     ss_funcs["PROD"] = not_ss;
-     ss_bool["RO2"] =  false;     ss_funcs["RO2"] =  not_ss;
 
      this->active = active;
 

@@ -1,6 +1,6 @@
 
 #include "CrankNicolson.hpp"
-#include "Concentration.hpp"
+#include "Grid.hpp"
 #include "Parameters.hpp"
 #include "AdvectionOperator.hpp"
 #include "Utils.hpp"
@@ -23,7 +23,7 @@ void AdvectionOperator::check() {
     Utils::Error("Unintended Advection Application");
 }
 
-void AdvectionOperator::apply(Concentrations *C){
+void AdvectionOperator::apply(Grid *C){
 // To apply to a full NCHEM x N matrix,
 // run and slice up for each CONCMAT(n,:) term
   std::string label;
