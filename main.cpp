@@ -9,8 +9,7 @@
 #include "AdvectionOperator.hpp"
 #include "DepositionOperator.hpp"
 #include "EmissionOperator.hpp"
-#include "SSOperator.hpp"
-#include "SSCChemOperator.hpp"
+#include "ChemOperator.hpp"
 #include "Parameters.hpp"
 
 using namespace std;
@@ -96,7 +95,7 @@ int main(){
   AdvectionOperator AdvDifOp(&BC);
   EmissionOperator EmOp(&E);
   DepositionOperator DepOp(&VD);
-  SSControledChemOperator SSCChemOp;
+  ChemistryOperator ChemOp;
   Grid C(&INITIAL);
 
   cout << " ----------------- Toy Chemical Transport Model ----------------- " << endl;
@@ -137,7 +136,7 @@ int main(){
       AdvDifOp.apply(&C);
 
       if (debuglevel > 2) {cout << "   running spinup chemistry at time " << t << endl;}
-      SSCChemOp.apply(&C, t);
+      ChemOp.SSC_apply(&C, t);
   }
 
   int index = 0;
@@ -166,7 +165,7 @@ int main(){
       AdvDifOp.apply(&C);
 
       if (debuglevel > 2) {cout << "   running chemistry at time " << t << endl;}
-      SSCChemOp.apply(&C, t);
+      ChemOp.SSC_apply(&C, t);
   }
 
   if (debuglevel > 0) {cout << " ----------------- creating results file -----------------" << endl;}

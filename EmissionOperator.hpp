@@ -6,11 +6,9 @@
 class EmissionOperator {
   public:
     void apply(Grid *C);
-    void check();
-    EmissionOperator(FULLCHEMMAP *E, int active = 1);
+
+    EmissionOperator(FULLCHEMMAP *E);
     ~EmissionOperator();
   private:
     FULLCHEMMAP E;
-    bool applied;
-    bool active;
 };

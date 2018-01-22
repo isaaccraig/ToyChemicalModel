@@ -1,6 +1,7 @@
 
 #pragma once
 #include "Parameters.hpp"
+#include "Utils.hpp"
 #include <string>
 
 class Grid{

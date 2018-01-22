@@ -9,8 +9,7 @@ class AdvectionOperator {
   public:
 
     void apply(Grid *C);
-    void check();
-    AdvectionOperator(BCMAP *bc, int active=1);
+    AdvectionOperator(BCMAP *bc);
     ~AdvectionOperator();
 
   private:
@@ -20,7 +19,5 @@ class AdvectionOperator {
     double rightdiags[7];
     double noflux_diagonal_right;
     double noflux_diagonal_left;
-    int applied;
-    int active;
 
 };

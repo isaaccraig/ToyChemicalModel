@@ -10,7 +10,7 @@
 #define NX 5
 #define NY 5
 #define NZ 1
-#define N NX*NY*NZ
+#define N 25
 #define NCHEM 12
 #define NSTAT 3
 
@@ -20,10 +20,19 @@
 #define PARAMS_final_time 14 // Final Local Time in Hours
 #define NT int((PARAMS_final_time - PARAMS_initial_time)/PARAMS_time_step)
 
-inline int xindex (int i) {return i / (NY * NZ);}
-inline int yindex (int i) {return (i%(NY * NZ))/NZ;}
-inline int zindex (int i) {return (i%(NY * NZ))%NZ;}
-inline int linearindex (int i, int j, int k) {return (k + j * NZ + i * NZ * NY);}
+inline int xindex (int i) {
+  return i / (NY * NZ);
+}
+inline int yindex (int i) {
+  return (i%(NY * NZ))/NZ;
+}
+inline int zindex (int i) {
+  return (i%(NY * NZ))%NZ;
+}
+
+inline int linearindex (int x, int y, int z) {
+  return z + NZ*y + NZ*NY*x ;
+}
 
 inline double TEMP(float t){
      // Pearson Type III Model for Diurnal Temperature Cycle
@@ -56,6 +65,8 @@ extern const double PARAMS_U, PARAMS_V, PARAMS_W; // Wind Speeds
 extern const std::string PARAMS_spatialunits ;
 extern const std::string PARAMS_temporalunits ;
 extern const std::string PARAMS_temperatureunits ;
+extern const std::string PARAMS_InputLocation ;
+extern const std::string PARAMS_ExitLocation ;
 extern const std::string PARAMS_Efile ;
 extern const std::string PARAMS_Exitfile ;
 extern const std::string PARAMS_BCfile ;
